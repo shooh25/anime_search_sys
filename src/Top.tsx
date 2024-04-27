@@ -1,8 +1,8 @@
 import React from 'react'
 import { useQuery } from 'react-query'
 import { getSample } from './apis/api'
-import ImageInput from './ImageInput'
-import TagInput from './TagInput'
+import ImageInput from './components/ImageInput'
+import TagInput from './components/TagInput'
 
 const Top: React.FC = () => {
   // const { data, isLoading } = useQuery("sample", getSample)
