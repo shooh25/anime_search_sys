@@ -14,9 +14,9 @@ const TagInput: React.FC = () => {
       matchedTags = taggingList.filter((tag) => {
         return tag.match(new RegExp(`${text}`, "gi"));
       })
+      setsuggestedTags(matchedTags)
     }
     
-    setsuggestedTags(matchedTags)
     setInputText(text)
   }
 
@@ -25,8 +25,7 @@ const TagInput: React.FC = () => {
       return
     }
     setInputText("")
-    setsuggestedTags(taggingList)
-    setInputTags([...inputTags, tag])
+    setInputTags([...inputTags, tag]) // add clicked tag
   }
 
   const removeTag = (index: number) => {
@@ -36,6 +35,7 @@ const TagInput: React.FC = () => {
       )
     )
   }
+
 
   return (
     <div className='w-full'>
@@ -55,7 +55,7 @@ const TagInput: React.FC = () => {
           onChange={handleChangeText}
           className='border-black border w-full'
         />
-        <ul className='absolute border border-black w-full h-[200px] overflow-y-scroll'>
+        <ul className='border border-black w-full h-[200px] overflow-y-scroll'>
           {suggestedTags.map((tag, i) => (
             <li
               key={i}

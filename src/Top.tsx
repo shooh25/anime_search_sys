@@ -19,6 +19,10 @@ const Top: React.FC = () => {
           <ImageInput />
           <TagInput />
         </div>
+
+        <div className='flex justify-center'>
+          <button>RUN</button>
+        </div>
       </div>
     </div>
   )
