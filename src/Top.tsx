@@ -7,7 +7,8 @@ import TagInput from './components/TagInput'
 const Top: React.FC = () => {
   // const { data, isLoading } = useQuery("sample", getSample)
   // console.log(data)
-
+  
+  
   return (
     <div className='px-4'>
       <div className='max-w-[900px] m-auto'>
@@ -18,10 +19,6 @@ const Top: React.FC = () => {
         <div className='md:grid md:grid-cols-2'>
           <ImageInput />
           <TagInput />
-        </div>
-
-        <div className='flex justify-center'>
-          <button>RUN</button>
         </div>
       </div>
     </div>

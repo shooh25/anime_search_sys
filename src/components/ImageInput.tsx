@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
 const ImageInput: React.FC = () => {
-  const [base64Images, setBase64Images] = useState<string | null>(null); // setting image URL
+  const [base64Image, setBase64Image] = useState<string | null>(null); // setting image URL
 
   const handleInputFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
@@ -17,7 +17,7 @@ const ImageInput: React.FC = () => {
       if (typeof result !== "string") {
         return;
       }
-      setBase64Images(result);
+      setBase64Image(result);
     };
   };
 
@@ -30,7 +30,10 @@ const ImageInput: React.FC = () => {
         onChange={handleInputFile}
       />
       <div className='w-full aspect-video'>
-        {base64Images && <img src={base64Images} className='w-full h-full object-cover' />}
+        {base64Image && <img src={base64Image} className='w-full h-full object-cover' />}
+      </div>
+      <div className='w-full flex justify-center'>
+        <button disabled={!base64Image}>Run with image</button>
       </div>
     </div>
   )

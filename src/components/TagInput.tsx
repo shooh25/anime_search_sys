@@ -16,7 +16,7 @@ const TagInput: React.FC = () => {
       })
       setsuggestedTags(matchedTags)
     }
-    
+
     setInputText(text)
   }
 
@@ -48,7 +48,7 @@ const TagInput: React.FC = () => {
           </li>
         ))}
       </ul>
-      <div className='relative w-full'>
+      <div className='w-full'>
         <input
           type="text"
           value={inputText}
@@ -67,6 +67,9 @@ const TagInput: React.FC = () => {
           ))}
         </ul>
 
+      </div>
+      <div className='w-full flex justify-center mt-10'>
+        <button disabled={!inputTags.length}>Run with Tags</button>
       </div>
     </div>
   )
