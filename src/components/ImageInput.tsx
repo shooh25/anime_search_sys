@@ -1,24 +1,29 @@
-import React, { useState } from 'react'
+import React from 'react'
+import { useState } from 'react';
 
-const ImageInput: React.FC = () => {
-  const [base64Image, setBase64Image] = useState<string | null>(null); // setting image URL
+type Props = {
+  inputImage: File | null;
+  handleSearchWithImage: () => void;
+  setInputImage: React.Dispatch<React.SetStateAction<File | null>>
+}
+
+const ImageInput: React.FC<Props> = ({ inputImage, setInputImage, handleSearchWithImage }) => {
+  const [previewSrc, setPreviewSrc] = useState<string | null>(null); // preview image
 
   const handleInputFile = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-    if (!files) {
-      return;
+    const file = e.target.files?.[0] || null;
+    setInputImage(file)
+
+    // setting preview image
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPreviewSrc(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    } else {
+      setPreviewSrc(null)
     }
-
-    const reader = new FileReader();
-    reader.readAsDataURL(files[0]);
-
-    reader.onloadend = () => {
-      const result = reader.result;
-      if (typeof result !== "string") {
-        return;
-      }
-      setBase64Image(result);
-    };
   };
 
   return (
@@ -30,10 +35,10 @@ const ImageInput: React.FC = () => {
         onChange={handleInputFile}
       />
       <div className='w-full aspect-video'>
-        {base64Image && <img src={base64Image} className='w-full h-full object-cover' />}
+        {previewSrc && <img src={previewSrc} alt="Preview" className="w-full h-full object-contain" />}
       </div>
       <div className='w-full flex justify-center'>
-        <button disabled={!base64Image}>Run with image</button>
+        <button disabled={!inputImage} onClick={handleSearchWithImage}>Run with Image</button>
       </div>
     </div>
   )

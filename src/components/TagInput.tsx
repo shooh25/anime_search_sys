@@ -1,9 +1,13 @@
 import React, { ChangeEventHandler, useState } from 'react'
 import { taggingList } from '../utils/constants'
 
-const TagInput: React.FC = () => {
-  const [inputText, setInputText] = useState<string>("") // texts in the input box
-  const [inputTags, setInputTags] = useState<string[]>([]) // added tags
+type Props = {
+  inputTags: string[];
+  setInputTags: React.Dispatch<React.SetStateAction<string[]>>;
+}
+
+const TagInput: React.FC<Props> = ({inputTags, setInputTags}) => {
+  const [inputText, setInputText] = useState<string>("") // text in the input box
   const [suggestedTags, setsuggestedTags] = useState<string[]>(taggingList) // suggested tags while typing texts
 
   const handleChangeText: ChangeEventHandler<HTMLInputElement> = ({ target }) => {
@@ -16,7 +20,6 @@ const TagInput: React.FC = () => {
       })
       setsuggestedTags(matchedTags)
     }
-
     setInputText(text)
   }
 
@@ -35,7 +38,6 @@ const TagInput: React.FC = () => {
       )
     )
   }
-
 
   return (
     <div className='w-full'>
@@ -66,7 +68,6 @@ const TagInput: React.FC = () => {
             </li>
           ))}
         </ul>
-
       </div>
       <div className='w-full flex justify-center mt-10'>
         <button disabled={!inputTags.length}>Run with Tags</button>
