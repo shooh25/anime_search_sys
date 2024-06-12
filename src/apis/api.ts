@@ -17,7 +17,6 @@ export const searchWithImage = async (data: FormData) => {
       'content-type': 'multipart/form-data',
     }
   }).then((res) => {
-    // console.log(res.data)
     return res.data
   })
 }

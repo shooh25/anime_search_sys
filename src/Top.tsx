@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
-import { useQuery, useMutation } from 'react-query'
-import { getSample } from './apis/api'
+import { useMutation } from 'react-query'
 import { searchWithImage } from './apis/api'
 import ImageInput from './components/ImageInput'
 import TagInput from './components/TagInput'
