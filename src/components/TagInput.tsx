@@ -4,9 +4,10 @@ import { taggingList } from '../utils/constants'
 type Props = {
   inputTags: string[];
   setInputTags: React.Dispatch<React.SetStateAction<string[]>>;
+  handleSearchWithTags: () => void
 }
 
-const TagInput: React.FC<Props> = ({inputTags, setInputTags}) => {
+const TagInput: React.FC<Props> = ({ inputTags, setInputTags, handleSearchWithTags }) => {
   const [inputText, setInputText] = useState<string>("") // text in the input box
   const [suggestedTags, setsuggestedTags] = useState<string[]>(taggingList) // suggested tags while typing texts
 
@@ -70,7 +71,12 @@ const TagInput: React.FC<Props> = ({inputTags, setInputTags}) => {
         </ul>
       </div>
       <div className='w-full flex justify-center mt-10'>
-        <button disabled={!inputTags.length}>Run with Tags</button>
+        <button
+          disabled={!inputTags.length}
+          onClick={handleSearchWithTags}
+        >
+          Run with Tags
+        </button>
       </div>
     </div>
   )
