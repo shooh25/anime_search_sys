@@ -1,4 +1,5 @@
 import React from 'react'
+import ReactPlayer from 'react-player';
 
 type Props = {
   similarityScores: string[];
@@ -17,16 +18,23 @@ const Result: React.FC<Props> = ({ similarityScores, isLoading, isError }) => {
 
         {/* output ranking */}
         {similarityScores.length > 0 && (
-          <ul>
-            {similarityScores.map((score, i) => (
-              <li key={i} className='flex gap-6'>
-                <p>{i + 1}位</p>
-                <p>{score[0]}</p>
-                <p className='font-bold'>{score[1]}</p>
-              </li>
-            ))}
-          </ul>
+          <div>
+            <ul>
+              {similarityScores.map((score, i) => (
+                <li key={i} className='flex gap-6'>
+                  <p>{i + 1}位</p>
+                  <p>{score[0]}</p>
+                  <p className='font-bold'>{score[1]}</p>
+                </li>
+              ))}
+            </ul>
+          </div>
         )}
+        
+        {/* video player */}
+        <div>
+          <ReactPlayer url={"../../assets/sample.mp4"} controls={true} muted={true} />
+        </div>
       </div>
     </div>
   )
