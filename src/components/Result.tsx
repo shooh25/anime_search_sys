@@ -13,7 +13,7 @@ const Result: React.FC<Props> = ({ similarityScores, isLoading, isError }) => {
       <h2 className="font-bold text-xl">結果</h2>
       <div className='mt-2'>
 
-        {isLoading && <p>Loading</p>}
+        {isLoading && <div className='animate-ping h-4 w-4 bg-blue-600 rounded-full'></div>}
         {isError && <p>Error</p>}
 
         {/* output ranking */}
@@ -32,7 +32,7 @@ const Result: React.FC<Props> = ({ similarityScores, isLoading, isError }) => {
         )}
         
         {/* video player */}
-        <div>
+        <div className='mt-10'>
           <ReactPlayer url={"../../assets/sample.mp4"} controls={true} muted={true} />
         </div>
       </div>
