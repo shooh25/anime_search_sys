@@ -10,7 +10,9 @@ const Top: React.FC = () => {
   const [inputImage, setInputImage] = useState<File | null>(null) // added image
   const [inputTags, setInputTags] = useState<string[]>([]) // added tags
   const [similarityScores, setSimilarityScores] = useState<string[]>([]) // result
+  const [videos, setVideos] = useState<string[]>(["../../assets/sample01.mp4", "../../assets/sample02.mp4", "../../assets/sample03.mp4"]) // result scene videos
 
+  // API
   const postImageMutation = useMutation((data: FormData) => searchWithImage(data))
   const postTagsMutation = useMutation((tags: string[]) => searchWithTags(tags))
 
@@ -53,7 +55,7 @@ const Top: React.FC = () => {
 
   return (
     <div className='px-4'>
-      <div className='max-w-[900px] m-auto'>
+      <div className='max-w-[1000px] m-auto'>
         <div className='text-center py-5'>
           <h1 className='font-bold text-3xl'>Anime Scene Search System</h1>
         </div>
@@ -75,6 +77,7 @@ const Top: React.FC = () => {
             similarityScores={similarityScores}
             isLoading={postImageMutation.isLoading}
             isError={postImageMutation.isError}
+            videos={videos}
           />
         </div>
       </div>

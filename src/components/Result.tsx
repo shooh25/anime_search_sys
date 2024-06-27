@@ -1,13 +1,17 @@
 import React from 'react'
+import { useState } from 'react';
 import ReactPlayer from 'react-player';
 
 type Props = {
   similarityScores: string[];
   isLoading: boolean;
   isError: boolean;
+  videos: string[];
 }
 
-const Result: React.FC<Props> = ({ similarityScores, isLoading, isError }) => {
+const Result: React.FC<Props> = ({ similarityScores, isLoading, isError, videos }) => {
+  const [videoIndex, setVideoIndex] = useState<number>(0)
+
   return (
     <div className='w-full'>
       <h2 className="font-bold text-xl">結果</h2>
@@ -17,23 +21,38 @@ const Result: React.FC<Props> = ({ similarityScores, isLoading, isError }) => {
         {isError && <p>Error</p>}
 
         {/* output ranking */}
-        {similarityScores.length > 0 && (
-          <div>
+        <div className='grid gap-6 grid-cols-2 '>
+          {similarityScores.length > 0 && (
             <ul>
               {similarityScores.map((score, i) => (
-                <li key={i} className='flex gap-6'>
-                  <p>{i + 1}位</p>
-                  <p>{score[0]}</p>
-                  <p className='font-bold'>{score[1]}</p>
+                <li
+                  key={i}
+                  className='border-b-2 py-2 cursor-pointer'
+                  onClick={() => (setVideoIndex(i))}
+                >
+                  <div className='flex gap-2'>
+                    <p>{i + 1}位</p>
+                    <div>
+                      <p>{score[0]}</p>
+                      <p className='font-bold'>{score[1]}</p>
+                    </div>
+                  </div>
                 </li>
               ))}
             </ul>
+          )}
+
+          {/* result video scenes */}
+          <div className='w-full bg-slate-200'>
+            {videos.length > 0 && videos[videoIndex] && (
+              <ReactPlayer
+                url={videos[videoIndex]}
+                controls={true}
+                muted={true}
+                width={"100%"}
+              />
+            )}
           </div>
-        )}
-        
-        {/* video player */}
-        <div className='mt-10'>
-          <ReactPlayer url={"../../assets/sample.mp4"} controls={true} muted={true} />
         </div>
       </div>
     </div>
