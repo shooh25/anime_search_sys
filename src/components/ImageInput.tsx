@@ -38,7 +38,13 @@ const ImageInput: React.FC<Props> = ({ inputImage, setInputImage, handleSearchWi
         {previewSrc && <img src={previewSrc} alt="Preview" className="w-full h-full object-contain" />}
       </div>
       <div className='w-full flex justify-center'>
-        <button disabled={!inputImage} onClick={handleSearchWithImage}>Run with Image</button>
+        <button
+          className='text-white bg-blue-600 px-4 py-2 rounded-md'
+          disabled={!inputImage}
+          onClick={handleSearchWithImage}
+        >
+          Run with Image
+        </button>
       </div>
     </div>
   )

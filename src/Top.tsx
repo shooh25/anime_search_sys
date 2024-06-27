@@ -54,7 +54,7 @@ const Top: React.FC = () => {
   }
 
   return (
-    <div className='px-4'>
+    <div className='px-4 pb-[60px]'>
       <div className='max-w-[1000px] m-auto'>
         <div className='text-center py-5'>
           <h1 className='font-bold text-3xl'>Anime Scene Search System</h1>
