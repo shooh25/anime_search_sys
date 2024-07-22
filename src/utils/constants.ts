@@ -1,3 +1,7 @@
+export const tagCategories = [
+  'ALL', 'CHARACTER'
+]
+
 export const taggingList = [
   "0_0",
   "1boy",

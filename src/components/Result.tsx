@@ -21,8 +21,8 @@ const Result: React.FC<Props> = ({ similarityScores, isLoading, isError, videos 
         {isError && <p>Error</p>}
 
         {/* output ranking */}
-        <div className='grid gap-6 grid-cols-2 '>
-          {similarityScores.length > 0 && (
+        {similarityScores.length > 0 && (
+          <div className='grid gap-6 grid-cols-2 '>
             <ul>
               {similarityScores.map((score, i) => (
                 <li
@@ -40,20 +40,23 @@ const Result: React.FC<Props> = ({ similarityScores, isLoading, isError, videos 
                 </li>
               ))}
             </ul>
-          )}
 
-          {/* result video scenes */}
-          <div className='w-full bg-slate-200'>
-            {videos.length > 0 && videos[videoIndex] && (
-              <ReactPlayer
-                url={videos[videoIndex]}
-                controls={true}
-                muted={true}
-                width={"100%"}
-              />
-            )}
+            {/* result video scenes */}
+            <div className='w-full bg-slate-200'>
+              {videos[videoIndex] && similarityScores[videoIndex] && (
+                <div className='w-full h-full'>
+                  <p>{similarityScores[videoIndex][0]}</p>
+                  <ReactPlayer
+                    url={videos[videoIndex]}
+                    controls={true}
+                    muted={true}
+                    width={"100%"}
+                  />
+                </div>
+              )}
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   )
