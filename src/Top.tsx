@@ -36,7 +36,7 @@ const Top: React.FC = () => {
 
     const formData = new FormData();
     formData.append('file', inputImage)
-    formData.append('tag_category_idx', String(tagCategory))
+    formData.append('category_idx', String(tagCategory))
     postImageMutation.mutate(formData, {
       onSuccess: (data) => {
         console.log(data)
