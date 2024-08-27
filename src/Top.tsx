@@ -32,7 +32,6 @@ const Top: React.FC = () => {
 
     // initialize result
     setSimilarityScores([])
-    setTagCategory(0)
 
     const formData = new FormData();
     formData.append('file', inputImage)

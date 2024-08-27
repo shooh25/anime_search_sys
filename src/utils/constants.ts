@@ -1,5 +1,5 @@
 export const tagCategories = [
-  'ALL', 'CHARACTER'
+  'ALL', 'CHARACTER', 'COMPOSITION', 'BACKGROUND'
 ]
 
 export const taggingList = [
