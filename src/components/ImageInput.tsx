@@ -52,7 +52,7 @@ const ImageInput: React.FC<Props> = ({ inputImage, tagCategory, setTagCategory, 
           ))}
         </select>
       </div>
-      <div className='w-full flex justify-center'>
+      <div className='w-full flex justify-center mt-10'>
         <button
           className='text-white bg-blue-600 px-4 py-2 rounded-md'
           disabled={!inputImage}
