@@ -6,17 +6,23 @@ import ImageInput from './components/ImageInput'
 import TagInput from './components/TagInput'
 import Result from './components/Result'
 import { tagCategories } from './utils/constants'
+import { PostData } from './types/type'
 
 const Top: React.FC = () => {
   const [inputImage, setInputImage] = useState<File | null>(null) // added image
   const [inputTags, setInputTags] = useState<string[]>([]) // added tags
   const [similarityScores, setSimilarityScores] = useState<string[]>([]) // result
-  const [tagCategory ,setTagCategory] = useState<number>(0) 
+  const [tagCategory, setTagCategory] = useState<number>(0)
   const [videos, setVideos] = useState<string[]>(["../../assets/sample01.mp4", "../../assets/sample02.mp4", "../../assets/sample03.mp4"]) // result scene videos
 
   // API
   const postImageMutation = useMutation((data: FormData) => searchWithImage(data))
-  const postTagsMutation = useMutation((tags: string[]) => searchWithTags(tags))
+  const postTagsMutation = useMutation((data: PostData) => searchWithTags(data))
+
+  // setting category
+  const handleChangeCat = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setTagCategory(Number(event.target.value))
+  }
 
   // search with image
   const handleSearchWithImage = () => {
@@ -54,7 +60,10 @@ const Top: React.FC = () => {
     // initialize result
     setSimilarityScores([])
 
-    postTagsMutation.mutate(inputTags, {
+    postTagsMutation.mutate({
+      tags: inputTags,
+      idx: tagCategory,
+    }, {
       onSuccess: (data) => {
         setSimilarityScores(data)
       }
@@ -71,8 +80,6 @@ const Top: React.FC = () => {
         <div className='md:grid md:grid-cols-2 gap-6'>
           <ImageInput
             inputImage={inputImage}
-            tagCategory={tagCategory}
-            setTagCategory={setTagCategory}
             setInputImage={setInputImage}
             handleSearchWithImage={handleSearchWithImage}
           />
@@ -81,6 +88,16 @@ const Top: React.FC = () => {
             setInputTags={setInputTags}
             handleSearchWithTags={handleSearchWithTags}
           />
+        </div>
+        <div>
+          <div className='w-full flex gap-4'>
+            <h3 className='font-bold text-lg'>Category</h3>
+            <select value={tagCategory} onChange={handleChangeCat} className='border border-black'>
+              {tagCategories.map((category, i) => (
+                <option value={i} key={i}>{category}</option>
+              ))}
+            </select>
+          </div>
         </div>
         <div className='pt-6'>
           <Result

@@ -1,3 +1,5 @@
-export type InputImage = {
-  base64: string
+export type PostData = {
+  tags: string[],
+  idx: number,
 }
+

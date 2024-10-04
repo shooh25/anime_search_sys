@@ -1,4 +1,5 @@
 import axios from "axios";
+import { PostData } from "../types/type";
 
 const client = axios.create({
   baseURL: "http://localhost:8000",
@@ -22,8 +23,8 @@ export const searchWithImage = async (data: FormData) => {
     });
 };
 
-export const searchWithTags = async (tags: string[]) => {
-  return await client.post("/tags", tags).then((res) => {
+export const searchWithTags = async (data: PostData) => {
+  return await client.post("/tags", data).then((res) => {
     return res.data;
   });
 };
