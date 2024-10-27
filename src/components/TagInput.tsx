@@ -58,6 +58,7 @@ const TagInput: React.FC<Props> = ({ inputTags, setInputTags, handleSearchWithTa
           value={inputText}
           onChange={handleChangeText}
           className='border-black border w-full'
+          placeholder='検索したいタグを入力してください (blue_hair, battle, など)'
         />
         <ul className='border border-black w-full h-[200px] overflow-y-scroll'>
           {suggestedTags.map((tag, i) => (
