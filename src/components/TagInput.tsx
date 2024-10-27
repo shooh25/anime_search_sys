@@ -1,6 +1,7 @@
 import React, { ChangeEventHandler, useState } from 'react'
 import { taggingList } from '../utils/constants'
 
+
 type Props = {
   inputTags: string[];
   setInputTags: React.Dispatch<React.SetStateAction<string[]>>;
@@ -9,17 +10,18 @@ type Props = {
 
 const TagInput: React.FC<Props> = ({ inputTags, setInputTags, handleSearchWithTags }) => {
   const [inputText, setInputText] = useState<string>("") // text in the input box
-  const [suggestedTags, setsuggestedTags] = useState<string[]>(taggingList) // suggested tags while typing texts
+  const [suggestedTags, setsuggestedTags] = useState<string[]>(['']) // suggested tags while typing texts
 
   const handleChangeText: ChangeEventHandler<HTMLInputElement> = ({ target }) => {
     const text = target.value
-    let matchedTags: string[] = []
-
-    if (text.length > 0) {
-      matchedTags = taggingList.filter((tag) => {
-        return tag.match(new RegExp(`${text}`, "gi"));
-      })
-      setsuggestedTags(matchedTags)
+    if (text.length > 1) {
+      setsuggestedTags(
+        taggingList.filter((tag) => {
+          return tag.match(new RegExp(`${text}`, "gi"));
+        })
+      )
+    } else {
+      setsuggestedTags([''])
     }
     setInputText(text)
   }
@@ -28,7 +30,6 @@ const TagInput: React.FC<Props> = ({ inputTags, setInputTags, handleSearchWithTa
     if (!tag || inputTags.includes(tag)) {
       return
     }
-    setInputText("")
     setInputTags([...inputTags, tag]) // add clicked tag
   }
 
@@ -62,7 +63,7 @@ const TagInput: React.FC<Props> = ({ inputTags, setInputTags, handleSearchWithTa
           {suggestedTags.map((tag, i) => (
             <li
               key={i}
-              className='hover:bg-blue-500'
+              className='cursor-pointer hover:bg-blue-400'
               onClick={() => { addTag(tag) }}
             >
               <p>{tag}</p>
