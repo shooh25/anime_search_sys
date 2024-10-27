@@ -72,12 +72,20 @@ const Top: React.FC = () => {
 
   return (
     <div className='px-4 pb-[60px]'>
-      <div className='max-w-[1000px] m-auto'>
+      <div className='max-w-[1000px] m-auto flex flex-col gap-4'>
         <div className='text-center py-5'>
-          <h1 className='font-bold text-3xl'>Anime Scene Search System</h1>
+          <h1 className='font-bold text-4xl'>Anime Scene Search Engine</h1>
+        </div>
+        <div className='w-full gap-3 flex flex-col items-center text-center bg-white p-7 rounded-lg'>
+          <h2 className='font-bold block text-2xl'>検索するカテゴリーを選択</h2>
+          <select value={tagCategory} onChange={handleChangeCat} className='bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 w-[200px]'>
+            {tagCategories.map((category, i) => (
+              <option value={i} key={i}>{category}</option>
+            ))}
+          </select>
         </div>
 
-        <div className='md:grid md:grid-cols-2 gap-6'>
+        <div className='md:grid md:grid-cols-2 pt-6 bg-white rounded-lg p-7'>
           <ImageInput
             inputImage={inputImage}
             setInputImage={setInputImage}
@@ -90,16 +98,6 @@ const Top: React.FC = () => {
           />
         </div>
         <div>
-          <div className='w-full flex gap-4'>
-            <h3 className='font-bold text-lg'>Category</h3>
-            <select value={tagCategory} onChange={handleChangeCat} className='border border-black'>
-              {tagCategories.map((category, i) => (
-                <option value={i} key={i}>{category}</option>
-              ))}
-            </select>
-          </div>
-        </div>
-        <div className='pt-6'>
           <Result
             similarityScores={similarityScores}
             isLoading={postImageMutation.isLoading}

@@ -14,15 +14,13 @@ const Result: React.FC<Props> = ({ similarityScores, isLoading, isError, videos 
 
   return (
     <div className='w-full'>
-      <h2 className="font-bold text-xl">結果</h2>
-      <div className='mt-2'>
-
-        {isLoading && <div className='animate-ping h-4 w-4 bg-blue-600 rounded-full'></div>}
-        {isError && <p>Error</p>}
+      <div className='text-center flex justify-center'>
+        {isLoading && <div className='pt-4 animate-ping h-4 w-4 bg-blue-600 rounded-full'></div>}
+        {isError && <p className='pt-4'>エラーが発生しました</p>}
 
         {/* output ranking */}
         {similarityScores.length > 0 && (
-          <div className='grid gap-6 grid-cols-2 '>
+          <div className='grid gap-6 grid-cols-2 w-full bg-white p-5 rounded-lg'>
             <ul>
               {similarityScores.map((score, i) => (
                 <li

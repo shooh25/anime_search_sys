@@ -27,8 +27,8 @@ const ImageInput: React.FC<Props> = ({ inputImage, setInputImage, handleSearchWi
   };
 
   return (
-    <div>
-      <h2 className='font-bold text-xl'>画像検索</h2>
+    <div className='h-full relative pr-6 border-r border-gray-200'>
+      <h2 className='font-bold text-2xl mb-6'>画像検索</h2>
       <input
         type="file"
         accept='image/png, image/jpeg'
@@ -37,13 +37,13 @@ const ImageInput: React.FC<Props> = ({ inputImage, setInputImage, handleSearchWi
       <div className='w-full aspect-video'>
         {previewSrc && <img src={previewSrc} alt="Preview" className="w-full h-full object-contain" />}
       </div>
-      <div className='w-full flex justify-center mt-10'>
+      <div className='w-full flex justify-center absolute bottom-0'>
         <button
-          className='text-white bg-blue-600 px-4 py-2 rounded-md'
+          className='text-white bg-blue-600 px-4 py-2 rounded-md disabled:bg-blue-300 disabled:cursor-not-allowed'
           disabled={!inputImage}
           onClick={handleSearchWithImage}
         >
-          Run with Image
+          画像検索を実行
         </button>
       </div>
     </div>
