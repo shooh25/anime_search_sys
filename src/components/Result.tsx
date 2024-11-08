@@ -6,11 +6,10 @@ type Props = {
   similarityScores: string[];
   isLoading: boolean;
   isError: boolean;
-  videos: string[];
 }
 
-const Result: React.FC<Props> = ({ similarityScores, isLoading, isError, videos }) => {
-  const [videoIndex, setVideoIndex] = useState<number>(0)
+const Result: React.FC<Props> = ({ similarityScores, isLoading, isError }) => {
+  const [clickedVideoIndex, setClickedVideoIndex] = useState<number>(0)
 
   return (
     <div className='w-full'>
@@ -26,7 +25,7 @@ const Result: React.FC<Props> = ({ similarityScores, isLoading, isError, videos 
                 <li
                   key={i}
                   className='border-b-2 py-2 cursor-pointer'
-                  onClick={() => (setVideoIndex(i))}
+                  onClick={() => (setClickedVideoIndex(i))}
                 >
                   <div className='flex gap-2'>
                     <p>{i + 1}位</p>
@@ -41,11 +40,11 @@ const Result: React.FC<Props> = ({ similarityScores, isLoading, isError, videos 
 
             {/* result video scenes */}
             <div className='w-full bg-slate-200'>
-              {videos[videoIndex] && similarityScores[videoIndex] && (
+              {similarityScores[clickedVideoIndex] && (
                 <div className='w-full h-full'>
-                  <p>{similarityScores[videoIndex][0]}</p>
+                  <p>{similarityScores[clickedVideoIndex][0]}</p>
                   <ReactPlayer
-                    url={videos[videoIndex]}
+                    url={`../../assets/${similarityScores[clickedVideoIndex][0]}`}
                     controls={true}
                     muted={true}
                     width={"100%"}

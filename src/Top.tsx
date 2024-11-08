@@ -13,7 +13,6 @@ const Top: React.FC = () => {
   const [inputTags, setInputTags] = useState<string[]>([]) // added tags
   const [similarityScores, setSimilarityScores] = useState<string[]>([]) // result
   const [tagCategory, setTagCategory] = useState<number>(0)
-  const [videos, setVideos] = useState<string[]>(["../../assets/sample01.mp4", "../../assets/sample02.mp4", "../../assets/sample03.mp4"]) // result scene videos
 
   // API
   const postImageMutation = useMutation((data: FormData) => searchWithImage(data))
@@ -66,6 +65,7 @@ const Top: React.FC = () => {
     }, {
       onSuccess: (data) => {
         setSimilarityScores(data)
+        console.log(data)
       }
     })
   }
@@ -102,7 +102,6 @@ const Top: React.FC = () => {
             similarityScores={similarityScores}
             isLoading={postImageMutation.isLoading}
             isError={postImageMutation.isError}
-            videos={videos}
           />
         </div>
       </div>
