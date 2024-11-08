@@ -90,18 +90,20 @@ const Top: React.FC = () => {
             inputImage={inputImage}
             setInputImage={setInputImage}
             handleSearchWithImage={handleSearchWithImage}
+            isLoading={postImageMutation.isLoading || postTagsMutation.isLoading}
           />
           <TagInput
             inputTags={inputTags}
             setInputTags={setInputTags}
             handleSearchWithTags={handleSearchWithTags}
+            isLoading={postImageMutation.isLoading || postTagsMutation.isLoading}
           />
         </div>
         <div>
           <Result
             similarityScores={similarityScores}
-            isLoading={postImageMutation.isLoading}
-            isError={postImageMutation.isError}
+            isLoading={postImageMutation.isLoading || postTagsMutation.isLoading}
+            isError={postImageMutation.isError ||  postTagsMutation.isError}
           />
         </div>
       </div>

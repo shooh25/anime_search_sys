@@ -4,10 +4,11 @@ import { useState } from 'react';
 type Props = {
   inputImage: File | null;
   handleSearchWithImage: () => void;
-  setInputImage: React.Dispatch<React.SetStateAction<File | null>>
+  setInputImage: React.Dispatch<React.SetStateAction<File | null>>;
+  isLoading: boolean;
 }
 
-const ImageInput: React.FC<Props> = ({ inputImage, setInputImage, handleSearchWithImage }) => {
+const ImageInput: React.FC<Props> = ({ inputImage, setInputImage, handleSearchWithImage, isLoading }) => {
   const [previewSrc, setPreviewSrc] = useState<string | null>(null); // preview image
 
   const handleInputFile = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -40,7 +41,7 @@ const ImageInput: React.FC<Props> = ({ inputImage, setInputImage, handleSearchWi
       <div className='w-full flex justify-center absolute bottom-0'>
         <button
           className='text-white bg-blue-600 px-4 py-2 rounded-md disabled:bg-blue-300 disabled:cursor-not-allowed'
-          disabled={!inputImage}
+          disabled={!inputImage || isLoading}
           onClick={handleSearchWithImage}
         >
           画像検索を実行

@@ -5,10 +5,11 @@ import { taggingList } from '../utils/constants'
 type Props = {
   inputTags: string[];
   setInputTags: React.Dispatch<React.SetStateAction<string[]>>;
-  handleSearchWithTags: () => void
+  handleSearchWithTags: () => void;
+  isLoading: boolean;
 }
 
-const TagInput: React.FC<Props> = ({ inputTags, setInputTags, handleSearchWithTags }) => {
+const TagInput: React.FC<Props> = ({ inputTags, setInputTags, handleSearchWithTags, isLoading }) => {
   const [inputText, setInputText] = useState<string>("") // text in the input box
   const [suggestedTags, setsuggestedTags] = useState<string[]>(['']) // suggested tags while typing texts
 
@@ -75,7 +76,7 @@ const TagInput: React.FC<Props> = ({ inputTags, setInputTags, handleSearchWithTa
       <div className='w-full flex justify-center mt-10'>
         <button
           className='text-white bg-blue-600 px-4 py-2 rounded-md disabled:bg-blue-300 disabled:cursor-not-allowed'
-          disabled={!inputTags.length}
+          disabled={!inputTags.length || isLoading}
           onClick={handleSearchWithTags}
         >
           タグ検索を実行
