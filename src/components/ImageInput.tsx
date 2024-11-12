@@ -28,14 +28,14 @@ const ImageInput: React.FC<Props> = ({ inputImage, setInputImage, handleSearchWi
   };
 
   return (
-    <div className='h-full relative pr-6 border-r border-gray-200'>
+    <div className='relative pr-6 border-r border-gray-200'>
       <h2 className='font-bold text-2xl mb-6'>画像検索</h2>
       <input
         type="file"
         accept='image/png, image/jpeg'
         onChange={handleInputFile}
       />
-      <div className='w-full aspect-video'>
+      <div className='w-full'>
         {previewSrc && <img src={previewSrc} alt="Preview" className="w-full h-full object-contain" />}
       </div>
       <div className='w-full flex justify-center absolute bottom-0'>
