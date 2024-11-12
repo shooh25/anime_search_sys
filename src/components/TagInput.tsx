@@ -29,6 +29,7 @@ const TagInput: React.FC<Props> = ({ inputTags, setInputTags, handleSearchWithTa
 
   const addTag = (tag: string) => {
     if (!tag || inputTags.includes(tag)) {
+      alert("選択されたタグは既に追加済みです")
       return
     }
     setInputTags([...inputTags, tag]) // add clicked tag
