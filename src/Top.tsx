@@ -13,7 +13,8 @@ const Top: React.FC = () => {
   const [inputTags, setInputTags] = useState<string[]>([]) // added tags
   const [similarityScores, setSimilarityScores] = useState<string[]>([]) // result
   const [tagCategory, setTagCategory] = useState<number>(0)
-
+  const [responseTime, setResponseTime] = useState<number>(0)
+  
   // API
   const postImageMutation = useMutation((data: FormData) => searchWithImage(data))
   const postTagsMutation = useMutation((data: PostData) => searchWithTags(data))
@@ -37,6 +38,8 @@ const Top: React.FC = () => {
 
     // initialize result
     setSimilarityScores([])
+    setResponseTime(0)
+    const startTime = Date.now()
 
     const formData = new FormData();
     formData.append('file', inputImage)
@@ -44,7 +47,10 @@ const Top: React.FC = () => {
     postImageMutation.mutate(formData, {
       onSuccess: (data) => {
         console.log(data)
+        const endTime = Date.now()
+        setResponseTime((endTime - startTime) / 1000)
         setSimilarityScores(data)
+
       }
     })
   }
@@ -58,12 +64,16 @@ const Top: React.FC = () => {
 
     // initialize result
     setSimilarityScores([])
+    setResponseTime(0)
+    const startTime = Date.now()
 
     postTagsMutation.mutate({
       tags: inputTags,
       idx: tagCategory,
     }, {
       onSuccess: (data) => {
+        const endTime = Date.now()
+        setResponseTime((endTime - startTime) / 1000)
         setSimilarityScores(data)
         console.log(data)
       }
@@ -102,6 +112,7 @@ const Top: React.FC = () => {
         <div>
           <Result
             similarityScores={similarityScores}
+            responseTime={responseTime}
             isLoading={postImageMutation.isLoading || postTagsMutation.isLoading}
             isError={postImageMutation.isError ||  postTagsMutation.isError}
           />
