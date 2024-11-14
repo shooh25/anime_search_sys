@@ -44,7 +44,7 @@ const Result: React.FC<Props> = ({ similarityScores, isLoading, isError }) => {
                 <div className='w-full h-full'>
                   <p>{similarityScores[clickedVideoIndex][0]}</p>
                   <ReactPlayer
-                    url={`../../assets/${similarityScores[clickedVideoIndex][0]}`}
+                    url={`http://localhost:8080/${similarityScores[clickedVideoIndex][0]}`}
                     controls={true}
                     muted={true}
                     width={"100%"}
