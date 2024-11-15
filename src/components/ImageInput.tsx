@@ -34,6 +34,7 @@ const ImageInput: React.FC<Props> = ({ inputImage, setInputImage, handleSearchWi
         type="file"
         accept='image/png, image/jpeg'
         onChange={handleInputFile}
+        className='w-full'
       />
       <div className='w-full'>
         {previewSrc && <img src={previewSrc} alt="Preview" className="w-full h-full object-contain" />}

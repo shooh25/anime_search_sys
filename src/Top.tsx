@@ -82,7 +82,7 @@ const Top: React.FC = () => {
 
   return (
     <div className='px-4 pb-[60px]'>
-      <div className='max-w-[1000px] m-auto flex flex-col gap-4'>
+      <div className='max-w-[1100px] m-auto flex flex-col gap-4'>
         <div className='text-center py-5'>
           <h1 className='font-bold text-4xl'>Anime Scene Search Engine</h1>
         </div>
