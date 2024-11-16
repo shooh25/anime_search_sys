@@ -41,7 +41,7 @@ const ImageInput: React.FC<Props> = ({ inputImage, setInputImage, handleSearchWi
       </div>
       <div className='w-full flex justify-center absolute bottom-0'>
         <button
-          className='text-white bg-blue-600 px-4 py-2 rounded-md disabled:bg-blue-300 disabled:cursor-not-allowed'
+          className='text-white bg-blue-600 px-10 py-3 font-bold rounded-lg disabled:bg-blue-300 disabled:cursor-not-allowed'
           disabled={!inputImage || isLoading}
           onClick={handleSearchWithImage}
         >
