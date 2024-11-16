@@ -1,15 +1,17 @@
 import React from 'react'
 import { useState } from 'react';
 import ReactPlayer from 'react-player';
+import { ResponceTagsData } from '../types/type';
 
 type Props = {
   similarityScores: string[];
   responseTime: number;
+  responceTags: ResponceTagsData[];
   isLoading: boolean;
   isError: boolean;
 }
 
-const Result: React.FC<Props> = ({ similarityScores, responseTime, isLoading, isError }) => {
+const Result: React.FC<Props> = ({ similarityScores, responseTime, responceTags, isLoading, isError }) => {
   const [clickedVideoIndex, setClickedVideoIndex] = useState<number>(0)
 
   return (
@@ -24,7 +26,23 @@ const Result: React.FC<Props> = ({ similarityScores, responseTime, isLoading, is
             <div className='flex justify-center pb-4'>
               <p className='font-bold text-lg'>検索時間: {responseTime} s</p>
             </div>
-            <div className='w-full grid grid-cols-2'>
+            <div className='border text-left p-3 rounded-md'>
+              <ul className='flex flex-col gap-3'>
+                {responceTags.map((data, i) => (
+                  <div key={i} className='flex'>
+                    <div className='w-[150px]'>
+                      <p className='font-bold'>{data.name}</p>
+                    </div>
+                    <div className='flex flex-wrap gap-x-1 flex-1'>
+                      {data.tags.map((tag, i) => (
+                        <p key={i} className='leading-5'>{tag},</p>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </ul>
+            </div>
+            <div className='w-full grid grid-cols-2 mt-5'>
               <ul>
                 {similarityScores.map((score, i) => (
                   clickedVideoIndex == i ? (
