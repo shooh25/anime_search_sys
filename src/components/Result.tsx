@@ -1,5 +1,4 @@
 import React from 'react'
-import { useState } from 'react';
 import ReactPlayer from 'react-player';
 import { ResponceTagsData } from '../types/type';
 
@@ -12,7 +11,6 @@ type Props = {
 }
 
 const Result: React.FC<Props> = ({ similarityScores, responseTime, responceTags, isLoading, isError }) => {
-  const [clickedVideoIndex, setClickedVideoIndex] = useState<number>(0)
 
   return (
     <div className='w-full'>
@@ -42,42 +40,35 @@ const Result: React.FC<Props> = ({ similarityScores, responseTime, responceTags,
                 ))}
               </ul>
             </div>
-            <div className='w-full grid grid-cols-2 mt-5'>
+            <div className='w-full mt-5'>
               <ul>
                 {similarityScores.map((score, i) => (
-                  clickedVideoIndex == i ? (
-                    <li
-                      key={i}
-                      className='border-b-2 py-2 cursor-pointer bg-blue-200'
-                      onClick={() => (setClickedVideoIndex(i))}
-                    >
-                      <div className='flex gap-2'>
-                        <p>{i + 1}位</p>
-                        <div>
-                          <p>{score[0]}</p>
-                          <p className='font-bold'>{score[1]}</p>
-                        </div>
+                  <li
+                    key={i}
+                    className='border-b-2 py-2 cursor-pointer flex'
+                  >
+                    <div className='flex-1 flex gap-2'>
+                      <p>{i + 1}位</p>
+                      <div>
+                        <p>{score[0]}</p>
+                        <p className='font-bold'>{score[1]}</p>
                       </div>
-                    </li>
-                  ) : (
-                    <li
-                      key={i}
-                      className='border-b-2 py-2 cursor-pointer'
-                      onClick={() => (setClickedVideoIndex(i))}
-                    >
-                      <div className='flex gap-2'>
-                        <p>{i + 1}位</p>
-                        <div>
-                          <p>{score[0]}</p>
-                          <p className='font-bold'>{score[1]}</p>
-                        </div>
-                      </div>
-                    </li>
-                  )
+                    </div>
+                    <div className='h-[200px]'>
+                    <ReactPlayer
+                      url={`http://localhost:8080/${score[0]}`}
+                      controls={false}
+                      playing={true}
+                      loop={true}
+                      muted={true}
+                      height={"100%"}
+                    />
+                    </div>
+                  </li>
                 ))}
               </ul>
               {/* result video scenes */}
-              <div className='w-full bg-slate-200'>
+              {/* <div className='w-full bg-slate-200'>
                 {similarityScores[clickedVideoIndex] && (
                   <div className='w-full h-full'>
                     <p>{similarityScores[clickedVideoIndex][0]}</p>
@@ -89,7 +80,7 @@ const Result: React.FC<Props> = ({ similarityScores, responseTime, responceTags,
                     />
                   </div>
                 )}
-              </div>
+              </div> */}
             </div>
           </div>
         )}
