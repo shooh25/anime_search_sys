@@ -3,3 +3,7 @@ export type PostData = {
   idx: number,
 }
 
+export type ResponceTagsData = {
+  name: string;
+  tags: string[];
+}

@@ -6,14 +6,15 @@ import ImageInput from './components/ImageInput'
 import TagInput from './components/TagInput'
 import Result from './components/Result'
 import { tagCategories } from './utils/constants'
-import { PostData } from './types/type'
+import { PostData, ResponceTagsData } from './types/type'
 
 const Top: React.FC = () => {
   const [inputImage, setInputImage] = useState<File | null>(null) // added image
   const [inputTags, setInputTags] = useState<string[]>([]) // added tags
-  const [similarityScores, setSimilarityScores] = useState<string[]>([]) // result
+  const [similarityScores, setSimilarityScores] = useState<string[]>([]) // result score
+  const [responceTags, setResponceTags] = useState<ResponceTagsData[]>([])
   const [tagCategory, setTagCategory] = useState<number>(0)
-  const [videos, setVideos] = useState<string[]>(["../../assets/sample01.mp4", "../../assets/sample02.mp4", "../../assets/sample03.mp4"]) // result scene videos
+  const [responseTime, setResponseTime] = useState<number>(0)
 
   // API
   const postImageMutation = useMutation((data: FormData) => searchWithImage(data))
@@ -38,6 +39,10 @@ const Top: React.FC = () => {
 
     // initialize result
     setSimilarityScores([])
+    setResponseTime(0)
+    setResponceTags([])
+
+    const startTime = Date.now()
 
     const formData = new FormData();
     formData.append('file', inputImage)
@@ -45,7 +50,10 @@ const Top: React.FC = () => {
     postImageMutation.mutate(formData, {
       onSuccess: (data) => {
         console.log(data)
-        setSimilarityScores(data)
+        const endTime = Date.now()
+        setResponseTime((endTime - startTime) / 1000)
+        setSimilarityScores(data.scores)
+        setResponceTags(data.tags)
       }
     })
   }
@@ -59,52 +67,60 @@ const Top: React.FC = () => {
 
     // initialize result
     setSimilarityScores([])
+    setResponseTime(0)
+    setResponceTags([])
+
+    const startTime = Date.now()
 
     postTagsMutation.mutate({
       tags: inputTags,
       idx: tagCategory,
     }, {
       onSuccess: (data) => {
-        setSimilarityScores(data)
+        const endTime = Date.now()
+        setResponseTime((endTime - startTime) / 1000)
+        setSimilarityScores(data.scores)
+        setResponceTags(data.tags)
       }
     })
   }
 
   return (
-    <div className='px-4 pb-[60px]'>
-      <div className='max-w-[1000px] m-auto'>
-        <div className='text-center py-5'>
-          <h1 className='font-bold text-3xl'>Anime Scene Search System</h1>
+    <div className='px-4 py-4'>
+      <div className='max-w-[1100px] m-auto flex flex-col gap-4'>
+        {/* <div className='text-center py-5'>
+          <h1 className='font-bold text-4xl'>Anime Scene Search Engine</h1>
+        </div> */}
+        <div className='w-full gap-3 flex flex-col items-center text-center bg-white p-7 rounded-lg'>
+          <h2 className='font-bold block text-2xl'>検索するカテゴリーを選択</h2>
+          <select value={tagCategory} onChange={handleChangeCat} className='bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 w-[200px]'>
+            {tagCategories.map((category, i) => (
+              <option value={i} key={i}>{category}</option>
+            ))}
+          </select>
         </div>
 
-        <div className='md:grid md:grid-cols-2 gap-6'>
+        <div className='md:grid md:grid-cols-2 pt-6 bg-white rounded-lg p-7'>
           <ImageInput
             inputImage={inputImage}
             setInputImage={setInputImage}
             handleSearchWithImage={handleSearchWithImage}
+            isLoading={postImageMutation.isLoading || postTagsMutation.isLoading}
           />
           <TagInput
             inputTags={inputTags}
             setInputTags={setInputTags}
             handleSearchWithTags={handleSearchWithTags}
+            isLoading={postImageMutation.isLoading || postTagsMutation.isLoading}
           />
         </div>
         <div>
-          <div className='w-full flex gap-4'>
-            <h3 className='font-bold text-lg'>Category</h3>
-            <select value={tagCategory} onChange={handleChangeCat} className='border border-black'>
-              {tagCategories.map((category, i) => (
-                <option value={i} key={i}>{category}</option>
-              ))}
-            </select>
-          </div>
-        </div>
-        <div className='pt-6'>
           <Result
             similarityScores={similarityScores}
-            isLoading={postImageMutation.isLoading}
-            isError={postImageMutation.isError}
-            videos={videos}
+            responseTime={responseTime}
+            responceTags={responceTags}
+            isLoading={postImageMutation.isLoading || postTagsMutation.isLoading}
+            isError={postImageMutation.isError || postTagsMutation.isError}
           />
         </div>
       </div>
