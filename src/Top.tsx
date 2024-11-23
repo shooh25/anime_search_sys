@@ -9,23 +9,24 @@ import { tagCategories } from './utils/constants'
 import { PostData, ResponceTagsData } from './types/type'
 
 const Top: React.FC = () => {
-  const [inputImage, setInputImage] = useState<File | null>(null) // added image
-  const [inputTags, setInputTags] = useState<string[]>([]) // added tags
-  const [similarityScores, setSimilarityScores] = useState<string[]>([]) // result score
-  const [responceTags, setResponceTags] = useState<ResponceTagsData[]>([])
-  const [tagCategory, setTagCategory] = useState<number>(0)
-  const [responseTime, setResponseTime] = useState<number>(0)
+  const [inputImage, setInputImage] = useState<File | null>(null) // ユーザーが指定した画像
+  const [inputTags, setInputTags] = useState<string[]>([]) // ユーザーが入力したタグが格納された配列
+  const [tagCategory, setTagCategory] = useState<number>(0) // 検索する際に使用するカテゴリー
 
-  // API
+  const [similarityScores, setSimilarityScores] = useState<string[]>([]) // APIから返ってきた類似シーンが格納された配列(5件)
+  const [responceTags, setResponceTags] = useState<ResponceTagsData[]>([]) // APIから返ってきたカテゴリーごとに分析されたタグ
+  const [responseTime, setResponseTime] = useState<number>(0) // 検索に掛かった時間
+
+  // 検索処理
   const postImageMutation = useMutation((data: FormData) => searchWithImage(data))
   const postTagsMutation = useMutation((data: PostData) => searchWithTags(data))
 
-  // setting category
+  // 検索する際に使用するカテゴリーを指定
   const handleChangeCat = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setTagCategory(Number(event.target.value))
   }
 
-  // search with image
+  // 画像検索を行う処理
   const handleSearchWithImage = () => {
     if (!inputImage) {
       alert('ファイルが選択されていません')
@@ -37,11 +38,12 @@ const Top: React.FC = () => {
       return
     }
 
-    // initialize result
+    // 類似度・検索時間・分析されたタグの値をそれぞれ初期化
     setSimilarityScores([])
     setResponseTime(0)
     setResponceTags([])
 
+    // 検索の開始時間を記録
     const startTime = Date.now()
 
     const formData = new FormData();
@@ -51,46 +53,49 @@ const Top: React.FC = () => {
       onSuccess: (data) => {
         console.log(data)
         const endTime = Date.now()
-        setResponseTime((endTime - startTime) / 1000)
+        setResponseTime((endTime - startTime) / 1000) // 検索にかかった時間を記録
         setSimilarityScores(data.scores)
         setResponceTags(data.tags)
       }
     })
   }
 
-  // search with tags
-  const handleSearchWithTags = () => {
-    if (!inputTags.length) {
-      alert("タグが選択されていません")
+  // タグ検索を行う処理
+  const handleSearchWithTags = (givenTags?: string[]) => {
+
+    // 引数でタグが与えられている場合はそれを用いて検索を行う
+    const tags = givenTags && givenTags.length ? givenTags : inputTags;
+
+    // タグが未入力の場合はアラート
+    if (!tags.length) {
+      alert('タグが空です')
       return
     }
 
-    // initialize result
+    // 類似度・検索時間・分析されたタグの値をそれぞれ初期化
     setSimilarityScores([])
     setResponseTime(0)
     setResponceTags([])
 
+    // 検索の開始時間を記録
     const startTime = Date.now()
 
     postTagsMutation.mutate({
-      tags: inputTags,
+      tags: tags,
       idx: tagCategory,
     }, {
       onSuccess: (data) => {
         const endTime = Date.now()
-        setResponseTime((endTime - startTime) / 1000)
+        setResponseTime((endTime - startTime) / 1000) // 検索にかかった時間を記録
         setSimilarityScores(data.scores)
         setResponceTags(data.tags)
       }
     })
   }
-
+  // console.log(inputTags)
   return (
     <div className='px-4 py-4'>
       <div className='max-w-[1100px] m-auto flex flex-col gap-4'>
-        {/* <div className='text-center py-5'>
-          <h1 className='font-bold text-4xl'>Anime Scene Search Engine</h1>
-        </div> */}
         <div className='w-full gap-3 flex flex-col items-center text-center bg-white p-7 rounded-lg'>
           <h2 className='font-bold block text-2xl'>検索するカテゴリーを選択</h2>
           <select value={tagCategory} onChange={handleChangeCat} className='bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 w-[200px]'>
@@ -119,6 +124,9 @@ const Top: React.FC = () => {
             similarityScores={similarityScores}
             responseTime={responseTime}
             responceTags={responceTags}
+            inputTags={inputTags}
+            handleSearchWithTags={handleSearchWithTags}
+            setInputTags={setInputTags}
             isLoading={postImageMutation.isLoading || postTagsMutation.isLoading}
             isError={postImageMutation.isError || postTagsMutation.isError}
           />

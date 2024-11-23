@@ -1,16 +1,28 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import ReactPlayer from 'react-player';
 import { ResponceTagsData } from '../types/type';
+import { FaSearch } from "react-icons/fa";
+import { IconContext } from 'react-icons';
 
 type Props = {
   similarityScores: string[];
   responseTime: number;
   responceTags: ResponceTagsData[];
+  inputTags: string[];
+  setInputTags: React.Dispatch<React.SetStateAction<string[]>>;
+  handleSearchWithTags: (givenTags?: string[]) => void;
   isLoading: boolean;
   isError: boolean;
 }
 
-const Result: React.FC<Props> = ({ similarityScores, responseTime, responceTags, isLoading, isError }) => {
+const Result: React.FC<Props> = ({ similarityScores, responseTime, responceTags, setInputTags, handleSearchWithTags, isLoading, isError }) => {
+
+  // 検索結果に表示されたタグを用いてタグ検索
+  const handleSearch = (tags: string[]) => {
+    setInputTags(tags)
+    handleSearchWithTags(tags)
+  }
+
 
   return (
     <div className='w-full'>
@@ -25,15 +37,22 @@ const Result: React.FC<Props> = ({ similarityScores, responseTime, responceTags,
               <p className='font-bold text-lg'>検索時間: {responseTime} s</p>
             </div>
             <div className='border text-left p-3 rounded-md'>
-              <ul className='flex flex-col gap-3'>
+              <ul className='flex flex-col gap-5'>
                 {responceTags.map((data, i) => (
                   <div key={i} className='flex'>
-                    <div className='w-[150px]'>
+                    <div className='w-[160px] flex align-top'>
                       <p className='font-bold'>{data.name}</p>
+                      {data.tags.length > 0 && (
+                        <IconContext.Provider value={{ color: '#3b82f6' }}>
+                          <button className='flex justify-center items-center h-7 w-7' onClick={() => handleSearch(data.tags)}><FaSearch /></button>
+                        </IconContext.Provider>
+                      )}
                     </div>
-                    <div className='flex flex-wrap gap-x-1 flex-1'>
+                    <div className='flex flex-wrap gap-[6px] flex-1'>
                       {data.tags.map((tag, i) => (
-                        <p key={i} className='leading-5'>{tag},</p>
+                        <li key={i} className='flex gap-4 px-2 py-[1px] bg-blue-100 rounded-md text-blue-600'>
+                          <p>{tag}</p>
+                        </li>
                       ))}
                     </div>
                   </div>
@@ -55,14 +74,14 @@ const Result: React.FC<Props> = ({ similarityScores, responseTime, responceTags,
                       </div>
                     </div>
                     <div className='h-[200px]'>
-                    <ReactPlayer
-                      url={`http://localhost:8080/${score[0]}`}
-                      controls={false}
-                      playing={true}
-                      loop={true}
-                      muted={true}
-                      height={"100%"}
-                    />
+                      <ReactPlayer
+                        url={`http://localhost:8080/${score[0]}`}
+                        controls={false}
+                        playing={true}
+                        loop={true}
+                        muted={true}
+                        height={"100%"}
+                      />
                     </div>
                   </li>
                 ))}

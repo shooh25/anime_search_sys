@@ -46,9 +46,9 @@ const TagInput: React.FC<Props> = ({ inputTags, setInputTags, handleSearchWithTa
   return (
     <div className='w-full pl-6'>
       <h2 className='font-bold text-2xl'>タグ検索</h2>
-      <ul className="w-full flex flex-wrap gap-2 my-3">
+      <ul className="w-full flex flex-wrap gap-[6px] my-3">
         {inputTags.map((tag, i) => (
-          <li key={i} className='flex gap-4 px-2 py-1 bg-blue-100 rounded-md text-blue-500'>
+          <li key={i} className='flex gap-4 px-2 py-[1px] bg-blue-100 rounded-md text-blue-600'>
             <p>{tag}</p>
             <button onClick={() => removeTag(i)}>×</button>
           </li>
