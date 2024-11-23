@@ -11,6 +11,7 @@ export const getSample = async () => {
   });
 };
 
+// 画像検索
 export const searchWithImage = async (data: FormData) => {
   return await client
     .post("/image", data, {
@@ -23,6 +24,7 @@ export const searchWithImage = async (data: FormData) => {
     });
 };
 
+// タグ検索
 export const searchWithTags = async (data: PostData) => {
   return await client.post("/tags", data).then((res) => {
     return res.data;

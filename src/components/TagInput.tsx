@@ -10,11 +10,14 @@ type Props = {
 }
 
 const TagInput: React.FC<Props> = ({ inputTags, setInputTags, handleSearchWithTags, isLoading }) => {
-  const [inputText, setInputText] = useState<string>("") // text in the input box
-  const [suggestedTags, setsuggestedTags] = useState<string[]>(['']) // suggested tags while typing texts
+  const [inputText, setInputText] = useState<string>("") // ユーザーが入力した文字列を格納
+  const [suggestedTags, setsuggestedTags] = useState<string[]>(['']) // 入力した文字によってサジェストされたタグの配列を格納
 
+  // 入力した文字に合わせてサジェストするタグを変更する処理
   const handleChangeText: ChangeEventHandler<HTMLInputElement> = ({ target }) => {
     const text = target.value
+
+    // 2文字以上入力された場合にタグをサジェスト
     if (text.length > 1) {
       setsuggestedTags(
         taggingList.filter((tag) => {
@@ -27,14 +30,16 @@ const TagInput: React.FC<Props> = ({ inputTags, setInputTags, handleSearchWithTa
     setInputText(text)
   }
 
+  // タグを追加
   const addTag = (tag: string) => {
     if (!tag || inputTags.includes(tag)) {
       alert("選択されたタグは既に追加済みです")
       return
     }
-    setInputTags([...inputTags, tag]) // add clicked tag
+    setInputTags([...inputTags, tag])
   }
 
+  // 追加済のタグを削除
   const removeTag = (index: number) => {
     setInputTags(
       inputTags.filter(tag =>

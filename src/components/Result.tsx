@@ -27,10 +27,14 @@ const Result: React.FC<Props> = ({ similarityScores, responseTime, responceTags,
   return (
     <div className='w-full'>
       <div className='text-center flex justify-center'>
+
+        {/* ロード画面 */}
         {isLoading && <div className='pt-4 animate-ping h-4 w-4 bg-blue-600 rounded-full'></div>}
+
+        {/* エラー画面 */}
         {isError && <p className='pt-4'>エラーが発生しました</p>}
 
-        {/* output ranking */}
+        {/* 類似度を取得出来ている場合はランキングを表示 */}
         {similarityScores.length > 0 && (
           <div className='w-full bg-white p-5 rounded-lg'>
             <div className='flex justify-center pb-4'>

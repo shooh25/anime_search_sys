@@ -17,7 +17,7 @@ const Top: React.FC = () => {
   const [responceTags, setResponceTags] = useState<ResponceTagsData[]>([]) // APIから返ってきたカテゴリーごとに分析されたタグ
   const [responseTime, setResponseTime] = useState<number>(0) // 検索に掛かった時間
 
-  // 検索処理
+  // API
   const postImageMutation = useMutation((data: FormData) => searchWithImage(data))
   const postTagsMutation = useMutation((data: PostData) => searchWithTags(data))
 
@@ -46,10 +46,13 @@ const Top: React.FC = () => {
     // 検索の開始時間を記録
     const startTime = Date.now()
 
+    // APIに入力データ(カテゴリーと画像)を送信
     const formData = new FormData();
     formData.append('file', inputImage)
     formData.append('category_idx', String(tagCategory))
     postImageMutation.mutate(formData, {
+
+      // データが返ってきた場合の処理
       onSuccess: (data) => {
         console.log(data)
         const endTime = Date.now()
@@ -80,10 +83,13 @@ const Top: React.FC = () => {
     // 検索の開始時間を記録
     const startTime = Date.now()
 
+    // APIに入力データ(カテゴリーとタグ)を送信
     postTagsMutation.mutate({
       tags: tags,
       idx: tagCategory,
     }, {
+
+      // データが返ってきた場合の処理
       onSuccess: (data) => {
         const endTime = Date.now()
         setResponseTime((endTime - startTime) / 1000) // 検索にかかった時間を記録
@@ -92,7 +98,6 @@ const Top: React.FC = () => {
       }
     })
   }
-  // console.log(inputTags)
   return (
     <div className='px-4 py-4'>
       <div className='max-w-[1100px] m-auto flex flex-col gap-4'>

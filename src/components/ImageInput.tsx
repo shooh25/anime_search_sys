@@ -9,13 +9,12 @@ type Props = {
 }
 
 const ImageInput: React.FC<Props> = ({ inputImage, setInputImage, handleSearchWithImage, isLoading }) => {
-  const [previewSrc, setPreviewSrc] = useState<string | null>(null); // preview image
+  const [previewSrc, setPreviewSrc] = useState<string | null>(null);
 
+  // ユーザーがアップした画像を表示させる処理
   const handleInputFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0] || null;
     setInputImage(file)
-
-    // setting preview image
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
